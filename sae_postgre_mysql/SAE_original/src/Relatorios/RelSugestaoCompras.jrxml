@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelUnidadeMedida" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b48ff843-d126-4ec0-8cf8-37a8e39cf58f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pCompras" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+   PROD_CODIGO_PRODUTO,
+   PROD_DESCRICAO,
+   prod_estoque_atual,
+   prod_estoque_minimo,
+   (SELECT coalesce(SUM(item_ped_quantidade),0) FROM ITEM_PEDIDO 
+    INNER JOIN PEDIDOS ON (PED_CODIGO_ID = item_ped_pedido_codigo_id)
+    WHERE ITEM_PED_PROD_CODIGO_ID = PROD_CODIGO_ID
+    AND PED_DATA_FATURAMENTO >= '2012/08/01' AND PED_DATA_FATURAMENTO <= '2012/08/31'
+   ) AS QTDE_VENDAS,
+   (SELECT coalesce(SUM(item_ped_quantidade),0) / 31 FROM ITEM_PEDIDO 
+    INNER JOIN PEDIDOS ON (PED_CODIGO_ID = item_ped_pedido_codigo_id)
+    WHERE ITEM_PED_PROD_CODIGO_ID = PROD_CODIGO_ID
+    AND PED_DATA_FATURAMENTO >= '2012/08/01' AND PED_DATA_FATURAMENTO <= '2012/08/31'
+   ) AS GIRO_DIARIO,
+    PROD_ESTOQUE_ATUAL - (SELECT (coalesce(SUM(item_ped_quantidade),0) / 31) * 360 FROM ITEM_PEDIDO 
+    INNER JOIN PEDIDOS ON (PED_CODIGO_ID = item_ped_pedido_codigo_id)
+    WHERE ITEM_PED_PROD_CODIGO_ID = PROD_CODIGO_ID
+    AND PED_DATA_FATURAMENTO >= '2012/08/01' AND PED_DATA_FATURAMENTO <= '2012/08/31'
+   ) AS SUGESTAO_COMPRA,
+   (SELECT coalesce(item_ent_valor_unitario,0) FROM ITEM_ENTRADA 
+    INNER JOIN ENTRADA_NOTAS ON (ENT_CODIGO_ID = item_not_codigo_id)
+    WHERE item_ent_prod_codigo_id = PROD_CODIGO_ID ORDER BY ent_data_entrada DESC LIMIT 1) AS ULT_CUSTO
+FROM PRODUTOS
+
+WHERE 
+
+    (PROD_ESTOQUE_ATUAL - (SELECT (coalesce(SUM(item_ped_quantidade),0) / 31) * 360 FROM ITEM_PEDIDO 
+    INNER JOIN PEDIDOS ON (PED_CODIGO_ID = item_ped_pedido_codigo_id)
+    WHERE ITEM_PED_PROD_CODIGO_ID = PROD_CODIGO_ID
+    AND PED_DATA_FATURAMENTO >= '2012/08/01' AND PED_DATA_FATURAMENTO <= '2012/08/31'
+    )) < 0]]>
+	</queryString>
+	<field name="prod_codigo_produto" class="java.lang.String"/>
+	<field name="prod_descricao" class="java.lang.String"/>
+	<field name="prod_estoque_atual" class="java.lang.Double"/>
+	<field name="prod_estoque_minimo" class="java.lang.Double"/>
+	<field name="qtde_vendas" class="java.lang.Double"/>
+	<field name="giro_diario" class="java.lang.Double"/>
+	<field name="sugestao_compra" class="java.lang.Double"/>
+	<field name="ult_custo" class="java.lang.Double"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="52">
+			<line>
+				<reportElement uuid="8ccff05f-16f2-48ce-8e85-8c161c3f53ef" x="0" y="2" width="802" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="3e94d948-afb3-44ec-a57b-046ba198fc44" mode="Opaque" x="0" y="39" width="82" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0084aef7-9747-4899-97c6-9ec2195f6a0e" x="0" y="5" width="210" height="23" forecolor="#666666"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUGESTÃO DE COMPRAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="36209c7a-2ba8-4859-8f8c-6a57bffd2f83" mode="Opaque" x="82" y="39" width="337" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[PRODUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e94d948-afb3-44ec-a57b-046ba198fc44" mode="Opaque" x="419" y="39" width="67" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ULT. CUSTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e94d948-afb3-44ec-a57b-046ba198fc44" mode="Opaque" x="486" y="39" width="72" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TOTAL VENDAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e94d948-afb3-44ec-a57b-046ba198fc44" mode="Opaque" x="558" y="39" width="60" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[GIRO DIÁRIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e94d948-afb3-44ec-a57b-046ba198fc44" mode="Opaque" x="618" y="39" width="55" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Est. Atual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e94d948-afb3-44ec-a57b-046ba198fc44" mode="Opaque" x="673" y="39" width="50" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Est Min.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e94d948-afb3-44ec-a57b-046ba198fc44" mode="Opaque" x="723" y="39" width="79" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sug. Compras]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="9f2b0ece-c5b3-4bd7-ae4f-71ee2e3b764b" key="textField" x="639" y="17" width="163" height="12" forecolor="#CCCCCC" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="d8f87cd0-505a-4f96-93b0-7269c2fe46b7" key="textField" x="655" y="5" width="147" height="12" forecolor="#CCCCCC" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7b12df78-7ecd-4d18-b6a2-0efa8fe06c89" x="1" y="27" width="801" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pCompras}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="13">
+			<textField>
+				<reportElement uuid="3d8f2472-8e32-4a17-99d3-da6b7b26745c" x="1" y="0" width="81" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prod_codigo_produto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="25efc9d2-cf1e-4df3-9986-2bbb6ab2134b" x="82" y="0" width="337" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prod_descricao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4f670422-7e78-481c-a687-19ad86a75cf5" x="419" y="0" width="67" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ult_custo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="b69a0017-ec3f-4c88-9ae0-d021d973fd0e" x="486" y="0" width="72" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qtde_vendas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="ddb71aee-7fc6-4069-a0d5-82025b9119fc" x="558" y="0" width="60" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{giro_diario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="29baa0a0-518c-4322-8b7b-945ed2579fb9" x="618" y="0" width="54" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prod_estoque_atual}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="46488a49-d039-49d2-9460-e6a27d2c7ee8" x="673" y="0" width="50" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prod_estoque_minimo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="2065c709-958e-4dec-836c-57517d290ecb" x="723" y="0" width="79" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sugestao_compra} * -1]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="32">
+			<line>
+				<reportElement uuid="e6148bf6-a720-40cf-9488-1c4cd7a31bf9" x="0" y="4" width="802" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

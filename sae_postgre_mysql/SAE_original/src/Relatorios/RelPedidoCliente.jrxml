@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelPedidoCliente" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5da5b3fc-7179-4404-b540-18103206c7f7">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pEmpresa" class="java.lang.String"/>
+	<parameter name="pVencimento" class="java.lang.String"/>
+	<parameter name="pPosicao" class="java.lang.String"/>
+	<parameter name="pLogo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT PED.*, PAR.*, ITEM.*, PROD.*, UNID.* FROM PEDIDOS PED
+INNER JOIN PARCEIROS PAR ON (PAR_CODIGO_ID = PED_PAR_CODIGO_ID)
+INNER JOIN ITEM_PEDIDO ITEM ON (ITEM.item_ped_pedido_codigo_id = PED.ped_codigo_id)
+INNER JOIN PRODUTOS PROD ON (PROD.PROD_CODIGO_ID = ITEM.item_ped_prod_codigo_id)
+INNER JOIN UNIDADE_DE_MEDIDA UNID ON (UNID.unid_codigo_id = PROD.PROD_CODIGO_ID)
+order by  par.par_nome_razao_social, ped.ped_data_emissao desc , ped.ped_codigo_id]]>
+	</queryString>
+	<field name="ped_codigo_id" class="java.lang.Integer"/>
+	<field name="ped_par_codigo_id" class="java.lang.Integer"/>
+	<field name="ped_numero_nota_fiscal" class="java.lang.Integer"/>
+	<field name="ped_chave_nfe" class="java.lang.String"/>
+	<field name="ped_par_end_codigo_id_entrega" class="java.lang.Integer"/>
+	<field name="ped_par_end_codigo_id_cobranca" class="java.lang.Integer"/>
+	<field name="ped_fpgto_codigo_id" class="java.lang.Integer"/>
+	<field name="ped_cpgto_codigo_id" class="java.lang.Integer"/>
+	<field name="ped_tipo_pedido" class="java.lang.String"/>
+	<field name="ped_data_emissao" class="java.sql.Date"/>
+	<field name="ped_data_faturamento" class="java.sql.Date"/>
+	<field name="ped_valor_desconto" class="java.lang.Double"/>
+	<field name="ped_percentual_desconto" class="java.lang.Double"/>
+	<field name="ped_total_pedido" class="java.lang.Double"/>
+	<field name="ped_observacao" class="java.lang.String"/>
+	<field name="ped_emp_codigo_id" class="java.lang.Integer"/>
+	<field name="ped_func_codigo_id" class="java.lang.Integer"/>
+	<field name="ped_banc_codigo_id" class="java.lang.Integer"/>
+	<field name="ped_oc_cliente" class="java.lang.String"/>
+	<field name="par_codigo_id" class="java.lang.Integer"/>
+	<field name="par_tipo_parceiro" class="java.lang.String"/>
+	<field name="par_nome_razao_social" class="java.lang.String"/>
+	<field name="par_fantasia" class="java.lang.String"/>
+	<field name="par_cnpj_cpf" class="java.lang.String"/>
+	<field name="par_insc_estadual" class="java.lang.String"/>
+	<field name="par_grup_codigo_id" class="java.lang.Integer"/>
+	<field name="par_ramo_codigo_id" class="java.lang.Integer"/>
+	<field name="par_limite_credito" class="java.lang.Double"/>
+	<field name="par_saldo_credito" class="java.lang.Double"/>
+	<field name="par_e_mail" class="java.lang.String"/>
+	<field name="par_home_page" class="java.lang.String"/>
+	<field name="par_data_cadastro" class="java.sql.Date"/>
+	<field name="par_observacao" class="java.lang.String"/>
+	<field name="par_ativo" class="java.lang.String"/>
+	<field name="par_rua_comercial" class="java.lang.String"/>
+	<field name="par_rua_cobranca" class="java.lang.String"/>
+	<field name="par_rua_correspondencia" class="java.lang.String"/>
+	<field name="par_numero_comercial" class="java.lang.Integer"/>
+	<field name="par_numero_cobranca" class="java.lang.Integer"/>
+	<field name="par_numero_correspondencia" class="java.lang.Integer"/>
+	<field name="par_bairro_comercial" class="java.lang.String"/>
+	<field name="par_bairro_cobranca" class="java.lang.String"/>
+	<field name="par_bairro_correspondencia" class="java.lang.String"/>
+	<field name="par_complemento_comercial" class="java.lang.String"/>
+	<field name="par_complemento_cobranca" class="java.lang.String"/>
+	<field name="par_complemento_correspondencia" class="java.lang.String"/>
+	<field name="par_cidade_comercial_codigo_id" class="java.lang.Integer"/>
+	<field name="par_cidade_cobranca_codigo_id" class="java.lang.Integer"/>
+	<field name="par_cidade_correspondencia_codigo_id" class="java.lang.Integer"/>
+	<field name="par_cep_comercial" class="java.lang.String"/>
+	<field name="par_cep_cobranca" class="java.lang.String"/>
+	<field name="par_cep_correspondencia" class="java.lang.String"/>
+	<field name="par_contato_comercial" class="java.lang.String"/>
+	<field name="par_contato_cobranca" class="java.lang.String"/>
+	<field name="par_contato_correspondencia" class="java.lang.String"/>
+	<field name="par_telefone_comercial" class="java.lang.String"/>
+	<field name="par_telefone_cobranca" class="java.lang.String"/>
+	<field name="par_telefone_correspondencia" class="java.lang.String"/>
+	<field name="par_fax_comercial" class="java.lang.String"/>
+	<field name="par_fax_cobranca" class="java.lang.String"/>
+	<field name="par_fax_correspondencia" class="java.lang.String"/>
+	<field name="par_pessoa" class="java.lang.String"/>
+	<field name="par_isento_subs_tributaria" class="java.lang.String"/>
+	<field name="par_isento_ipi" class="java.lang.String"/>
+	<field name="par_isento_suframa" class="java.lang.String"/>
+	<field name="item_ped_codigo_id" class="java.lang.Integer"/>
+	<field name="item_ped_pedido_codigo_id" class="java.lang.Integer"/>
+	<field name="item_ped_prod_codigo_id" class="java.lang.Integer"/>
+	<field name="item_ped_quantidade" class="java.lang.Double"/>
+	<field name="item_ped_percentual_desconto" class="java.lang.Double"/>
+	<field name="item_ped_cfop" class="java.lang.String"/>
+	<field name="item_ped_icms" class="java.lang.Double"/>
+	<field name="item_ped_ipi" class="java.lang.Double"/>
+	<field name="item_ped_icms_sub_trib" class="java.lang.Double"/>
+	<field name="item_ped_valor_unitario" class="java.lang.Double"/>
+	<field name="item_ped_valor_total" class="java.lang.Double"/>
+	<field name="item_pedido_base_calculo_icms" class="java.lang.Double"/>
+	<field name="item_ped_aliquota_icms" class="java.lang.Double"/>
+	<field name="item_ped_aliquota_ipi" class="java.lang.Double"/>
+	<field name="item_ped_peso_liquido" class="java.lang.Double"/>
+	<field name="item_ped_peso_bruto" class="java.lang.Double"/>
+	<field name="item_ped_cst" class="java.lang.String"/>
+	<field name="item_pedido_lote" class="java.lang.String"/>
+	<field name="prod_codigo_id" class="java.lang.Integer"/>
+	<field name="prod_codigo_produto" class="java.lang.String"/>
+	<field name="prod_descricao" class="java.lang.String"/>
+	<field name="prod_codigo_ean" class="java.lang.String"/>
+	<field name="prod_unid_codigo_id" class="java.lang.Integer"/>
+	<field name="prod_peso_liquido" class="java.lang.Double"/>
+	<field name="prod_peso_bruto" class="java.lang.Double"/>
+	<field name="prod_estoque_atual" class="java.lang.Double"/>
+	<field name="prod_estoque_minimo" class="java.lang.Double"/>
+	<field name="prod_estoque_maximo" class="java.lang.Double"/>
+	<field name="prod_preco_venda" class="java.lang.Double"/>
+	<field name="prod_valor_minimo_venda" class="java.lang.Double"/>
+	<field name="prod_grup_codigo_id" class="java.lang.Integer"/>
+	<field name="prod_trib_codigo_id" class="java.lang.Integer"/>
+	<field name="prod_reducao_icms" class="java.lang.Double"/>
+	<field name="prod_pis" class="java.lang.Double"/>
+	<field name="prod_cofins" class="java.lang.Double"/>
+	<field name="prod_aliq_diferenciada_icms" class="java.lang.Double"/>
+	<field name="prod_aliq_de_ipi" class="java.lang.Double"/>
+	<field name="prod_imagem_produto" class="java.lang.String"/>
+	<field name="prod_observacao" class="java.lang.String"/>
+	<field name="prod_ativo" class="java.lang.String"/>
+	<field name="prod_icms" class="java.lang.Double"/>
+	<field name="prod_ncm" class="java.lang.String"/>
+	<field name="prod_descricao_generica" class="java.lang.String"/>
+	<field name="prod_cst" class="java.lang.String"/>
+	<field name="unid_codigo_id" class="java.lang.Integer"/>
+	<field name="unid_descricao" class="java.lang.String"/>
+	<field name="unid_unidade" class="java.lang.String"/>
+	<variable name="SomaPedido" class="java.lang.Double" resetType="Group" resetGroup="grProdutos" calculation="Sum">
+		<variableExpression><![CDATA[$F{item_ped_valor_total}]]></variableExpression>
+	</variable>
+	<variable name="SomaGeral" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{item_ped_valor_total}]]></variableExpression>
+	</variable>
+	<variable name="TotalPagina" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{item_ped_valor_total}]]></variableExpression>
+	</variable>
+	<group name="grProdutos">
+		<groupExpression><![CDATA[$F{ped_par_codigo_id}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<staticText>
+					<reportElement uuid="ec79e9d8-ff20-41f5-b99d-f8008d33e000" mode="Opaque" x="55" y="12" width="46" height="12" backcolor="#F0EDED"/>
+					<textElement>
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[  Pedido]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d8a14a9d-004c-43fd-95e9-1394221b86bb" mode="Opaque" x="346" y="12" width="39" height="12" backcolor="#F0EDED"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Qtde.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="5a1f58d2-1258-4c76-92bb-649d53b2f4d4" mode="Opaque" x="328" y="12" width="18" height="12" backcolor="#F0EDED"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[UM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="991ab9f2-568b-4f53-9225-65aad39f34c5" mode="Opaque" x="385" y="12" width="67" height="12" backcolor="#F0EDED"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Vlr. Unit.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="abb131a2-51ad-4796-bc3b-041ef688864f" mode="Opaque" x="101" y="12" width="228" height="12" backcolor="#F0EDED"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Decrição]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ec79e9d8-ff20-41f5-b99d-f8008d33e000" mode="Opaque" x="1" y="12" width="54" height="12" backcolor="#F0EDED"/>
+					<textElement textAlignment="Center">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Data]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="991ab9f2-568b-4f53-9225-65aad39f34c5" mode="Opaque" x="452" y="12" width="72" height="12" backcolor="#F0EDED"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ec79e9d8-ff20-41f5-b99d-f8008d33e000" mode="Opaque" x="1" y="1" width="46" height="12" backcolor="#F0EDED"/>
+					<textElement>
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Cliente:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="475f74d7-b2bb-46ee-8522-4aaff4ab3b5f" mode="Opaque" x="46" y="1" width="509" height="12" backcolor="#F0EDED"/>
+					<textElement>
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{par_nome_razao_social}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="991ab9f2-568b-4f53-9225-65aad39f34c5" mode="Opaque" x="524" y="12" width="31" height="12" backcolor="#F0EDED"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Mov]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="14">
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement uuid="4c54ead9-1cdf-453c-85fe-9a7c17e52079" x="454" y="2" width="70" height="10"/>
+					<textElement textAlignment="Right">
+						<font fontName="Courier New" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SomaPedido}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="981e7162-a7d5-470f-8fb5-564e6202279d" x="352" y="2" width="100" height="10"/>
+					<textElement textAlignment="Right">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Total Cliente :]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="76">
+			<line>
+				<reportElement uuid="50800637-e3c5-4ff4-9879-6defe46b28f3" x="0" y="2" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="c9e9af07-3770-4e40-8902-6871b06dc6c5" x="440" y="16" width="115" height="45" forecolor="#CCCCCC"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relação de Pedidos / Clientes]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="c257ce64-772e-441a-b894-c54cae2d08dd" mode="Transparent" x="1" y="10" width="119" height="51"/>
+				<imageExpression><![CDATA[$P{pLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="5954c085-4f78-41a8-ba22-7a00d5e00c9f" x="123" y="16" width="311" height="15"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9ccfeb41-0c1d-4c16-9c6f-b2a98c07bce0" x="123" y="31" width="311" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pVencimento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement uuid="bd4b3a4b-9546-444d-b468-facfe6f416e4" x="1" y="61" width="119" height="15" forecolor="#999999"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e74cad84-226c-4d23-ab3f-7b9025221def" x="440" y="61" width="115" height="15" forecolor="#999999"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="13">
+			<textField>
+				<reportElement uuid="fffdcff5-e1ef-4e79-9b03-9f1b1124e5d8" x="101" y="0" width="227" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prod_descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7e691786-1899-4f12-b48d-962c98407aab" x="346" y="0" width="39" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_ped_quantidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement uuid="d1d791a8-4853-4b81-97b6-33ce4276ef9c" x="385" y="0" width="67" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_ped_valor_unitario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##,##0.00;-##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4cb51c51-1cd1-4f2b-8f75-a4dda885395f" x="454" y="0" width="70" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_ped_valor_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fffdcff5-e1ef-4e79-9b03-9f1b1124e5d8" x="329" y="0" width="17" height="12"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unid_unidade}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="475f74d7-b2bb-46ee-8522-4aaff4ab3b5f" isPrintRepeatedValues="false" mode="Transparent" x="55" y="0" width="37" height="12" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ped_codigo_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="475f74d7-b2bb-46ee-8522-4aaff4ab3b5f" isPrintRepeatedValues="false" mode="Transparent" x="2" y="0" width="53" height="12" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ped_data_emissao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="475f74d7-b2bb-46ee-8522-4aaff4ab3b5f" mode="Transparent" x="547" y="1" width="8" height="12" backcolor="#F0EDED"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ped_tipo_pedido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="37">
+			<line>
+				<reportElement uuid="07ecd58a-d0d4-4017-a108-5190ee6463ba" x="0" y="4" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="981e7162-a7d5-470f-8fb5-564e6202279d" x="385" y="21" width="100" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[Total Geral :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4c54ead9-1cdf-453c-85fe-9a7c17e52079" x="485" y="21" width="70" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SomaGeral}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4c54ead9-1cdf-453c-85fe-9a7c17e52079" x="485" y="9" width="70" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="981e7162-a7d5-470f-8fb5-564e6202279d" x="385" y="9" width="100" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[Total Página :]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

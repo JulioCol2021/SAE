@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelCidades" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5a500fc5-40b9-4957-94ac-06ab0d98629e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select * from cidades]]>
+	</queryString>
+	<field name="cid_codigo_id" class="java.lang.Integer"/>
+	<field name="cid_codigo_uf" class="java.lang.Integer"/>
+	<field name="cid_uf" class="java.lang.String"/>
+	<field name="cid_codigo_municipio" class="java.lang.Integer"/>
+	<field name="cid_municipio" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="45">
+			<line>
+				<reportElement uuid="582511b6-f311-44dd-9010-10ceb14cd7eb" x="0" y="8" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="7e3aa380-aa7b-4525-90ba-b4f48df27f8a" mode="Opaque" x="0" y="32" width="65" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="59b3eb27-45de-4687-91b8-bf8350af0559" x="1" y="9" width="64" height="23" forecolor="#CCCCCC"/>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CIDADES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9c5baf88-667c-450e-83be-83b7c1abf9f6" mode="Opaque" x="65" y="32" width="56" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CÓD. UF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="842b955b-c71b-4d83-abaa-826bcbf48e31" mode="Opaque" x="121" y="32" width="35" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="de52544e-d99f-48b6-82a3-c31b4ffcb350" mode="Opaque" x="156" y="32" width="123" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CÓD MUNICIPIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="38538237-365b-48ab-b1a1-5c400cafa2bc" mode="Opaque" x="279" y="32" width="276" height="12" forecolor="#666666" backcolor="#F0ECEC"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CIDADE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="12">
+			<textField>
+				<reportElement uuid="b2ff66ec-db51-4157-a723-2d0994d135ca" x="1" y="0" width="64" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cid_codigo_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3f624715-14fd-46ea-a95f-a2996e252cbd" x="65" y="0" width="55" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cid_codigo_uf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e756a887-ba07-47f9-85aa-042a4e441b43" x="120" y="0" width="35" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cid_uf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fdacabbd-488c-4713-8f3e-b46471b3d0df" x="155" y="0" width="123" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cid_codigo_municipio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="36945a17-18e2-4241-bcee-02dc74a80a43" x="278" y="0" width="277" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cid_municipio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="d006ee65-7e0e-48d9-90bc-f02c747d02fc" key="textField" x="360" y="6" width="193" height="12" forecolor="#CCCCCC" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de " + $V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="831912df-e2f7-4533-b74e-aa017b834504" key="textField" x="1" y="6" width="209" height="12" forecolor="#CCCCCC" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="a7256903-d435-48ca-90fa-c7b60d125d27" x="0" y="4" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

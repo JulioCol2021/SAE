@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelContasReceber" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f9cdf091-dc9b-4cb8-8ad5-0a70426b9070">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pEmpresa" class="java.lang.String"/>
+	<parameter name="pParceiro" class="java.lang.String"/>
+	<parameter name="pVencimento" class="java.lang.String"/>
+	<parameter name="pPosicao" class="java.lang.String"/>
+	<parameter name="pProduto" class="java.lang.String"/>
+	<parameter name="pLogo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+prod_codigo_produto as codigo,
+prod_descricao as descricao,
+sum(item_quantidade) as entrada ,
+(select sum(item_quantidade) as total from item_saida_interna
+ where item_prod_codigo_id = prod_codigo_id) as saida,
+ (sum(item_quantidade) -
+(select sum(item_quantidade) as total from item_saida_interna
+ where item_prod_codigo_id = prod_codigo_id)) as Saldo
+
+FROM ENTRADA_INTERNA
+LEFT JOIN item_entrada_interna ON (item_ent_codigo_id = ent_codigo_id)
+LEFT JOIN PRODUTOS ON (PROD_CODIGO_ID = ITEM_PROD_CODIGO_ID)
+group by prod_codigo_produto, prod_descricao, saida]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="entrada" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saida" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saldo" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="87">
+			<line>
+				<reportElement uuid="9ae00408-780c-4d9a-841e-b88e0fd9999b" x="0" y="8" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="096cebe6-5cab-495c-b62d-b059544bed20" stretchType="RelativeToBandHeight" x="437" y="11" width="118" height="31" forecolor="#CCCCCC"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entrada / Saída Sintético]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6ede1366-dc2a-4772-8424-930aad21b44f" mode="Opaque" x="378" y="73" width="88" height="12" backcolor="#E9E5E5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Saída]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="0552a8e1-72f6-429a-b3f7-9b16fcd8564c" mode="Transparent" x="1" y="10" width="119" height="70"/>
+				<imageExpression><![CDATA[$P{pLogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="da9af0e8-4d88-48d5-bb60-d52144d27596" mode="Opaque" x="0" y="73" width="63" height="12" forecolor="#000000" backcolor="#E9E5E5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8f89281f-5aaf-4f51-acde-7cb0cc287ac4" mode="Opaque" x="296" y="73" width="82" height="12" backcolor="#E9E5E5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Entrada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eb40f904-7b91-4116-bbc0-9464e20d5c76" mode="Opaque" x="63" y="73" width="233" height="12" backcolor="#E9E5E5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="452d61bc-b327-4d1e-9c8f-0cc184da6333" x="123" y="11" width="311" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="504b882c-23eb-4ca5-af43-cd71a50c6f32" x="123" y="23" width="311" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pParceiro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="41f08601-6e28-42c5-8360-4a8c8e870539" x="123" y="47" width="311" height="12"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pVencimento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="bdc239cc-e919-4235-b8d6-f2b5efc4337a" mode="Opaque" x="466" y="73" width="89" height="12" backcolor="#E9E5E5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f74a313a-e29c-428e-ab00-443057608c73" x="123" y="59" width="311" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pPosicao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement uuid="8b2fa5d1-079b-44e7-b98f-3eb6bdd4ee05" x="437" y="47" width="118" height="12" forecolor="#999999"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bddd448c-c691-44ae-8ba8-5179f7cf0ed3" x="437" y="59" width="118" height="12" forecolor="#999999"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c7e0b8b5-52d8-4014-8649-4bdc9c539d28" x="123" y="35" width="311" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pProduto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d836ea25-d452-4e9b-9277-3a1c2eda7aae" x="1" y="0" width="62" height="12"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##,##0.00;-##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="e771e1f2-cf0b-481d-8c33-a0af4de81d68" x="296" y="0" width="82" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entrada}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##,##0.00;-##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="f542877f-7ae1-43d7-922d-e008f03f5f38" x="378" y="0" width="88" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saida}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##,##0.00;-##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="1379c579-5e1a-455a-92c8-0ac592eb9b33" x="466" y="0" width="86" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="78e8f786-9e2c-4470-90c6-1325a2075377" x="63" y="0" width="233" height="12"/>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="38">
+			<line>
+				<reportElement uuid="1120abe3-341e-4a0b-a0d5-d66eaa106923" x="0" y="4" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

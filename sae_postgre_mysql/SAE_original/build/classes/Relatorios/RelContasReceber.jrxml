@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelContasReceber" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="050a5644-cf0e-46d8-9080-a22de6e3c960">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="1"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pEmpresa" class="java.lang.String"/>
+	<parameter name="pParceiro" class="java.lang.String"/>
+	<parameter name="pVencimento" class="java.lang.String"/>
+	<parameter name="pPosicao" class="java.lang.String"/>
+	<parameter name="pLogo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT CR.*, RCR.*, PAR.PAR_NOME_RAZAO_SOCIAL,
+COALESCE(rcr_valor_recebido,0) AS rcr_valor_recebido11,
+CASE  WHEN CR.CR_VALOR_DOCUMENTO = 
+     (SELECT COALESCE(SUM(T.RCR_VALOR_RECEBIDO),0) AS TOTAL 
+      FROM RECEBIMENTO_CONTAS_RECEBER T WHERE T.RCR_CR_CODIGO_ID = CR.CR_CODIGO_ID) THEN RCR.RCR_VALOR_RECEBIDO ELSE CR.CR_VALOR_DOCUMENTO END AS VALOR_TITULO
+ FROM CONTAS_RECEBER CR
+LEFT JOIN RECEBIMENTO_CONTAS_RECEBER RCR ON (RCR.rcr_cr_codigo_id = CR.CR_CODIGO_ID)
+INNER JOIN PARCEIROS PAR ON (PAR.PAR_CODIGO_ID = CR.CR_PAR_CODIGO_ID)]]>
+	</queryString>
+	<field name="cr_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_emp_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_par_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_nota_fiscal" class="java.lang.Integer"/>
+	<field name="cr_serie_nota" class="java.lang.String"/>
+	<field name="cr_documento" class="java.lang.String"/>
+	<field name="cr_classificacao" class="java.lang.String"/>
+	<field name="cr_parcela" class="java.lang.Integer"/>
+	<field name="cr_data_emissao" class="java.sql.Date"/>
+	<field name="cr_data_vencimento" class="java.sql.Date"/>
+	<field name="cr_valor_documento" class="java.lang.Double"/>
+	<field name="cr_fpgto_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_cpgto_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_doc_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_custo_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_observacao" class="java.lang.String"/>
+	<field name="cr_data_pagamento" class="java.sql.Date"/>
+	<field name="cr_acrescimo" class="java.lang.Double"/>
+	<field name="cr_desconto" class="java.lang.Double"/>
+	<field name="cr_valor_pago" class="java.lang.Double"/>
+	<field name="cr_banc_codigo_id" class="java.lang.Integer"/>
+	<field name="cr_favorecido" class="java.lang.String"/>
+	<field name="cr_observacao_baixa" class="java.lang.String"/>
+	<field name="cr_usuario" class="java.lang.String"/>
+	<field name="cr_usuario_alt" class="java.lang.String"/>
+	<field name="cr_total_parcelas" class="java.lang.Integer"/>
+	<field name="rcr_codigo_id" class="java.lang.Integer"/>
+	<field name="rcr_cr_codigo_id" class="java.lang.Integer"/>
+	<field name="rcr_data_recebimento" class="java.sql.Date"/>
+	<field name="rcr_usuario" class="java.lang.String"/>
+	<field name="rcr_valor_recebido" class="java.lang.Double"/>
+	<field name="rcr_acrescimo" class="java.lang.Double"/>
+	<field name="rcr_desconto" class="java.lang.Double"/>
+	<field name="par_nome_razao_social" class="java.lang.String"/>
+	<field name="rcr_valor_recebido11" class="java.lang.Double"/>
+	<field name="valor_titulo" class="java.lang.Double"/>
+	<variable name="SomaTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_titulo}]]></variableExpression>
+	</variable>
+	<variable name="ValorPago" class="java.lang.Double" resetType="Group" resetGroup="Pagamento" calculation="Sum">
+		<variableExpression><![CDATA[$F{rcr_valor_recebido11}]]></variableExpression>
+	</variable>
+	<variable name="ValorPendente" class="java.lang.Double" resetType="Group" resetGroup="Pagamento">
+		<variableExpression><![CDATA[$F{cr_valor_documento}.doubleValue() - $V{ValorPago}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="GeralRecebido" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{rcr_valor_recebido}]]></variableExpression>
+	</variable>
+	<variable name="GeralPendente" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SomaTotal}.doubleValue() - $V{GeralRecebido}.doubleValue()]]></variableExpression>
+	</variable>
+	<group name="Pagamento">
+		<groupExpression><![CDATA[$F{cr_codigo_id}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<staticText>
+					<reportElement uuid="80401462-b440-45ea-9c70-d29b595e2498" mode="Opaque" x="172" y="0" width="65" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Nota Fiscal]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="db837dfd-9e9a-42f2-b3d1-6b20c5978cd4" mode="Opaque" x="565" y="0" width="75" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Vencimento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="0496bcd4-cfd6-4e11-af4b-696dec0900a2" mode="Opaque" x="713" y="0" width="90" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Valor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="0fde212d-387e-478c-b5a4-6b370565fc5b" mode="Opaque" x="0" y="0" width="86" height="12" forecolor="#000000" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Documento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2170045c-9dfb-4377-af3a-77e63875dba1" mode="Opaque" x="123" y="0" width="50" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Parcela]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7ebe4ada-8924-4806-9a81-f8121f601321" mode="Opaque" x="506" y="0" width="59" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Emissão]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3c1a4c2e-05f0-4351-95f6-1af2f4014e52" mode="Opaque" x="86" y="0" width="37" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Class.]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="27c1d0e7-8d03-4091-b6f9-a0b0483ede25" x="1" y="13" width="85" height="12"/>
+					<textElement>
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cr_documento}.toString()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="b9eb329f-3661-44f2-b339-2ccb8b09dc5a" x="124" y="13" width="49" height="12"/>
+					<textElement textAlignment="Center">
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cr_parcela}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="18b558b0-c6c6-41fa-87a5-b83648e502e8" x="173" y="13" width="64" height="12"/>
+					<textElement textAlignment="Center">
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cr_nota_fiscal}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="cacc2de8-be53-4edb-9624-4ac867477242" x="506" y="13" width="59" height="12"/>
+					<textElement textAlignment="Center">
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cr_data_emissao}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="d3d591d9-0b63-4261-8e41-66a4e65b86e7" x="565" y="13" width="75" height="12"/>
+					<textElement textAlignment="Center">
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cr_data_vencimento}]]></textFieldExpression>
+				</textField>
+				<textField pattern="##,##0.00">
+					<reportElement uuid="38f9440d-9d67-4b1b-a136-6afa84794e67" x="713" y="13" width="89" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cr_valor_documento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a69568f6-aedf-4efc-a382-e6a025bbf679" x="86" y="13" width="37" height="12"/>
+					<textElement textAlignment="Center">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cr_classificacao}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="80401462-b440-45ea-9c70-d29b595e2498" mode="Opaque" x="237" y="0" width="270" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cliente]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="18b558b0-c6c6-41fa-87a5-b83648e502e8" x="237" y="13" width="270" height="12"/>
+					<textElement>
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{par_nome_razao_social}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="7ebe4ada-8924-4806-9a81-f8121f601321" mode="Opaque" x="640" y="0" width="73" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Recebimento]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="13">
+				<staticText>
+					<reportElement uuid="7ebe4ada-8924-4806-9a81-f8121f601321" mode="Transparent" x="625" y="1" width="88" height="12" backcolor="#E9E5E5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Valor Pendente :]]></text>
+				</staticText>
+				<textField pattern="##,##0.00" isBlankWhenNull="true">
+					<reportElement uuid="38f9440d-9d67-4b1b-a136-6afa84794e67" x="714" y="1" width="88" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{ValorPendente}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="77">
+			<line>
+				<reportElement uuid="2a18e3fa-ef72-43d9-9e69-c6f7cd9586a8" x="0" y="8" width="802" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="8fec6c0a-0fa8-44c4-aca6-af119fbff64e" x="687" y="13" width="115" height="30" forecolor="#CCCCCC"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contas a Receber]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="593bb8d6-dda5-4d6d-bb98-18f2605d9cf4" mode="Transparent" x="1" y="10" width="119" height="66"/>
+				<imageExpression><![CDATA[$P{pLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="427e0402-ab0f-4326-9753-258457b52877" x="123" y="16" width="311" height="15"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ed4b869a-13e8-4352-a2fc-3a864e69f66b" x="123" y="31" width="311" height="15"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pParceiro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="11a5248b-694f-40cf-839d-fc7166c75a33" x="123" y="46" width="311" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pVencimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4be389dc-6841-4d32-87c1-e63536ce39e9" x="123" y="61" width="311" height="15"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pPosicao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement uuid="44e38c90-190c-478e-b335-bab19c3093cb" x="687" y="43" width="115" height="15" forecolor="#999999"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="74c08e6e-f0bc-4828-902d-39b4298600f8" x="687" y="60" width="115" height="15" forecolor="#999999"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="13">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="d3d591d9-0b63-4261-8e41-66a4e65b86e7" x="639" y="1" width="75" height="12"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rcr_data_recebimento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="38f9440d-9d67-4b1b-a136-6afa84794e67" x="713" y="1" width="89" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rcr_valor_recebido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="47">
+			<line>
+				<reportElement uuid="2735d0e5-c6e1-4a74-b22f-68e70e0a1cd4" x="0" y="4" width="802" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField pattern="##,##0.00;-##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="70fa75f0-89fb-4c54-9856-4b1f9f18f9cc" x="713" y="20" width="87" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="false" isItalic="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GeralRecebido}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2bc62127-8469-49c4-87eb-1f2fbfe759af" x="639" y="20" width="73" height="12" forecolor="#000099"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Total Recebido:]]></text>
+			</staticText>
+			<textField pattern="##,##0.00;-##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="70fa75f0-89fb-4c54-9856-4b1f9f18f9cc" x="713" y="32" width="87" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="false" isItalic="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GeralPendente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2bc62127-8469-49c4-87eb-1f2fbfe759af" x="639" y="32" width="73" height="12" forecolor="#000099"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Total Pendente:]]></text>
+			</staticText>
+			<textField pattern="##,##0.00;-##,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="70fa75f0-89fb-4c54-9856-4b1f9f18f9cc" x="713" y="8" width="87" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8" isBold="false" isItalic="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SomaTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2bc62127-8469-49c4-87eb-1f2fbfe759af" x="639" y="8" width="73" height="12" forecolor="#000099"/>
+				<textElement>
+					<font fontName="Courier New" size="8" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Total Títulos.:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
